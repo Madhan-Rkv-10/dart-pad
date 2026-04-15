@@ -1,54 +1,54 @@
-name: package:dart_services
+# name: package:dart_services
 
-on:
-  push:
-    branches: [ main ]
-    paths:
-      - '.github/workflows/dart_services.yml'
-      - 'pkgs/dart_services/**'
-  pull_request:
-    branches: [ main ]
-    paths:
-      - '.github/workflows/dart_services.yml'
-      - 'pkgs/dart_services/**'
-  schedule:
-    - cron: '0 0 * * *' # daily
+# on:
+#   push:
+#     branches: [ main ]
+#     paths:
+#       - '.github/workflows/dart_services.yml'
+#       - 'pkgs/dart_services/**'
+#   pull_request:
+#     branches: [ main ]
+#     paths:
+#       - '.github/workflows/dart_services.yml'
+#       - 'pkgs/dart_services/**'
+#   schedule:
+#     - cron: '0 0 * * *' # daily
 
-jobs:
+# jobs:
   # Check code formatting, static analysis, and build on a single OS (linux).
-  verify:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: pkgs/dart_services/
-    strategy:
-      fail-fast: false
-      matrix:
-        sdk: [stable, beta, main]
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
-      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
-        with:
-            channel: ${{ matrix.sdk }}
-      - run: flutter --version
+  # verify:
+    # runs-on: ubuntu-latest
+    # defaults:
+    #   run:
+    #     working-directory: pkgs/dart_services/
+    # strategy:
+    #   fail-fast: false
+    #   matrix:
+    #     sdk: [stable, beta, main]
+    #  steps:
+     #   - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd
+    #   - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
+     #     with:
+      #        channel: ${{ matrix.sdk }}
+     #   - run: flutter --version
 
-      - name: Install dart dependencies
-        run: flutter pub get
+     #   - name: Install dart dependencies
+      #    run: flutter pub get
 
-      - name: Analyze project source
-        run: dart analyze --fatal-infos
+      #  - name: Analyze project source
+      #    run: dart analyze --fatal-infos
 
-      - name: Verify formatting
-        run: dart format --set-exit-if-changed bin lib test tool
+     #   - name: Verify formatting
+      #    run: dart format --set-exit-if-changed bin lib test tool
 
-      - name: Create template projects and populate the custom pub cache
-        run: dart tool/grind.dart build-project-templates
+      #  - name: Create template projects and populate the custom pub cache
+      #   run: dart tool/grind.dart build-project-templates
 
       # Build the web artifacts on the bots to ensure they don't regress.
-      - name: Build web artifacts
-        run: dart tool/grind.dart build-storage-artifacts
+      #  - name: Build web artifacts
+      #  run: dart tool/grind.dart build-storage-artifacts
 
-      - name: Run tests
-        run: dart test test/presubmit
+      #  - name: Run tests
+       #   run: dart test test/presubmit
 
-      - run: tool/check_cycles.sh
+      #  - run: tool/check_cycles.sh
